@@ -1,21 +1,22 @@
-using DagSort
+include("./graph.jl")
 
-A = Cell("A");
-B = Cell("B");
-C = Cell("C");
-D = Cell("D");
-E = Cell("E");
-F = Cell("F");
-G = Cell("G");
-H = Cell("H");
+visit_by_bfs(poolgraph())
 
-addkid(A, B);addkid(A, H);
-addkid(B, C);addkid(B, D);
-addkid(C, D);addkid(C, E);
-addkid(D, F);
-addkid(E, G);
-addkid(F, G);
-addkid(G, H);
+visit_by_dfs(poolgraph())
 
-visit_by_bfs(A)
-visit_by_dfs(A)
+
+for cell in multihead()
+    println("===== cells that depends on $(cell.data) =====")
+    for c in visit_by_bfs(cell)
+        display(c)
+    end
+    println()
+end
+
+for cell in multihead()
+    println("===== cells that depends on $(cell.data) =====")
+    for c in visit_by_dfs(cell)
+        display(c)
+    end
+    println()
+end

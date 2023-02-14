@@ -2,7 +2,8 @@ using DagSort
 using BenchmarkTools
 
 """
-    crazy(n, f::Function)
+    crazy(n::Int, f::Function)
+sort_by_dfs is faster than sort_by_bfs
 
 julia> @btime crazy(100_000, sort_by_bfs)
   32.579 ms (500014 allocations: 28.53 MiB)

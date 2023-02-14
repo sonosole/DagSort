@@ -1,60 +1,22 @@
-using DagSort
+include("./graph.jl")
 
-A = Cell("A");
-B = Cell("B");
-C = Cell("C");
-D = Cell("D");
-E = Cell("E");
-F = Cell("F");
-G = Cell("G");
-H = Cell("H");
+sort_by_bfs(poolgraph())
 
-addkid(A, B);addkid(A, H);
-addkid(B, C);addkid(B, D);
-addkid(C, D);addkid(C, E);
-addkid(D, F);
-addkid(E, G);
-addkid(F, G);
-addkid(G, H);
-
-sort_by_bfs(A)
+sort_by_dfs(poolgraph())
 
 
-A = Cell("A");
-B = Cell("B");
-C = Cell("C");
-D = Cell("D");
-E = Cell("E");
-F = Cell("F");
-G = Cell("G");
-H = Cell("H");
+for cell in multihead()
+    println("===== cells that depends on $(cell.data) =====")
+    for c in sort_by_bfs(cell)
+        display(c)
+    end
+    println()
+end
 
-addkid(A, B);addkid(A, H);
-addkid(B, C);addkid(B, D);
-addkid(C, D);addkid(C, E);
-addkid(D, F);
-addkid(E, G);
-addkid(F, G);
-addkid(G, H);
-
-sort_by_dfs(A)
-
-
-
-
-A = Cell("A");
-B = Cell("B");
-C = Cell("C");
-D = Cell("D");
-E = Cell("E");
-F = Cell("F");
-G = Cell("G");
-H = Cell("H");
-
-addkid(A, B);
-addkid(B, C);addkid(B, D);addkid(B, E);
-addkid(C, D);addkid(C, G);
-addkid(E, H);
-addkid(F, C);
-
-sort_by_bfs(A)
+for cell in multihead()
+    println("===== cells that depends on $(cell.data) =====")
+    for c in sort_by_dfs(cell)
+        display(c)
+    end
+    println()
+end
