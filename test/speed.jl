@@ -1,5 +1,6 @@
 using DagSort
 using BenchmarkTools
+include("./graph.jl")
 
 """
     crazy(n::Int, f::Function)
@@ -26,3 +27,15 @@ end
 count = 100_000
 @btime crazy(count, sort_by_bfs)
 @btime crazy(count, sort_by_dfs)
+
+
+
+function mytest(T::Int, by::Function)
+    top = rnngraph(T)
+    sortby = by(top)
+    return nothing
+end
+
+
+ @btime  mytest(512*100, sort_by_bfs(top));
+ @btime  mytest(512*100, sort_by_dfs(top));
