@@ -30,12 +30,14 @@ count = 100_000
 
 
 
-function mytest(T::Int, by::Function)
-    top = rnngraph(T)
+function mytest(N::Int, T::Int, by::Function)
+    top = rnngraph(N, T)
     sortby = by(top)
     return nothing
 end
 
-
- @btime  mytest(512*100, sort_by_bfs(top));
- @btime  mytest(512*100, sort_by_dfs(top));
+depth = 4*100
+times = 512
+@btime RNN = rnngraph(depth, times);
+@btime mytest(depth, times, sort_by_bfs);
+@btime mytest(depth, times, sort_by_dfs);

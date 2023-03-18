@@ -68,20 +68,57 @@ function multihead()
 end
 
 
-function rnngraph(T::Int)
-    cells = Vector{Cell}(undef, 4*T+1)
-    top = Cell("$(4*T+1)")
-    sub = Array{Cell}(undef, 4, T)
+"""
+              ┌───┐
+       ┌──────┤ A ├──────┐      top
+       │      └─┬─┘      │
+       ▼        ▼        ▼      n
+     ┌─┴─┐    ┌─┴─┐    ┌─┴─┐    ‖
+     │ D ├─◄──┤ C ├─◄──┤ B │    1
+     └─┬─┘    └─┬─┘    └─┬─┘
+       ▼        ▼        ▼
+     ┌─┴─┐    ┌─┴─┐    ┌─┴─┐
+     │ G ├─◄──┤ F ├─◄──┤ E │    2
+     └─┬─┘    └─┬─┘    └─┬─┘
+       ▼        ▼        ▼
+     ┌─┴─┐    ┌─┴─┐    ┌─┴─┐
+     │ J ├─◄──┤ I ├─◄──┤ H │    3
+     └─┬─┘    └─┬─┘    └─┬─┘
+       ▼        ▼        ▼
+     ┌─┴─┐    ┌─┴─┐    ┌─┴─┐
+     │ M │─◄──│ L │─◄──│ K │    4
+     └─┬─┘    └─┬─┘    └─┬─┘
+       ▼        ▼        ▼
+       │      ┌─┴─┐      │
+       └──────┤ N ├──────┘      bot
+              └───┘
+  t  =  1       2        3
+
+"""
+function rnngraph(N::Int, T::Int)
+    top = Cell("$(N*T+1)")
+    sub = Array{Cell}(undef, N, T)
+    bot = Cell("0")
     for t = 1:T
-        for n = 1:4
+        # creat spatial nodes at time `t`
+        for n = 1:N
             sub[n,t] = Cell("$n-$t")
         end
-        for n = 1:3
+        # spatial connections at time `t`
+        for n = 1:N-1
             addkid(sub[n,t], sub[n+1,t])
-        end;addkid(top, sub[1,t])
+        end
+        addkid(top, sub[1,t])
     end
-    for t = 1:T-1
-        addkid(sub[1,t], sub[1,t+1])
+    # temporal connections at row `n`
+    for n = 1:N
+        for t = 1:T-1
+            addkid(sub[n,t+1], sub[n,t])
+        end
+    end
+    # connections to bottom node `bot`
+    for t = 1:T
+        addkid(sub[N,t], bot)
     end
     return top
 end
