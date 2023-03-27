@@ -95,7 +95,7 @@ end
   t  =  1       2        3
 
 """
-function rnngraph(N::Int, T::Int)
+function stgraph(N::Int, T::Int)
     top = Cell("$(N*T+1)")
     sub = Array{Cell}(undef, N, T)
     bot = Cell("0")
