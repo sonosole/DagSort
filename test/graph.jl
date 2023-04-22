@@ -122,3 +122,47 @@ function stgraph(N::Int, T::Int)
     end
     return top
 end
+
+
+
+"""
+    A calculation graph example :
+    H₃ = Z₃ + Y₃, of which Z₃ = U * H₂, Y₃ = W * X₃
+    H₂ = Z₂ + Y₂, of which Z₂ = U * H₁, Y₂ = W * X₂
+    H₁ = Z₁ + Y₁, of which Z₁ = U * H₀, Y₁ = W * X₁
+"""
+function calgraph()
+    H₀ = Cell("H₀");
+    H₁ = Cell("H₁");
+    H₂ = Cell("H₂");
+    H₃ = Cell("H₃");
+
+    Z₁ = Cell("Z₁");
+    Z₂ = Cell("Z₂");
+    Z₃ = Cell("Z₃");
+
+    Y₁ = Cell("Y₁");
+    Y₂ = Cell("Y₂");
+    Y₃ = Cell("Y₃");
+
+    X₁ = Cell("X₁");
+    X₂ = Cell("X₂");
+    X₃ = Cell("X₃");
+
+    U = Cell("U");
+    W = Cell("W");
+
+    addkid(H₃, Y₃);addkid(H₃, Z₃);
+    addkid(H₂, Y₂);addkid(H₂, Z₂);
+    addkid(H₁, Y₁);addkid(H₁, Z₁);
+
+    addkid(Z₃, H₂);addkid(Z₃, U);
+    addkid(Z₂, H₁);addkid(Z₂, U);
+    addkid(Z₁, H₀);addkid(Z₁, U);
+
+    addkid(Y₃, X₃);addkid(Y₃, W);
+    addkid(Y₂, X₂);addkid(Y₂, W);
+    addkid(Y₁, X₁);addkid(Y₁, W);
+
+    return H₃
+end
